@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 01 - Validador de CPF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h1 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #resultado {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Validador de CPF</h1>
+    <input type="text" id="cpf" placeholder="Digite o CPF (ex: 123.456.789-09)" maxlength="14">
+    <button onclick="validar()">Validar</button>
+    <div id="resultado"></div>
+</div>
+
+<script>
+    function validar() {
+        var cpf = document.getElementById("cpf").value;
+
+        // remove tudo que não for número
+        cpf = cpf.replace(/\D/g, "");
+
+        var resultado = document.getElementById("resultado");
+        resultado.style.display = "block";
+
+        if (cpf.length !== 11) {
+            resultado.style.backgroundColor = "#f8d7da";
+            resultado.style.color = "red";
+            resultado.innerText = "CPF deve ter 11 dígitos!";
+            return;
+        }
+
+        // CPFs inválidos com todos os dígitos iguais
+        if (/^(\d)\1{10}$/.test(cpf)) {
+            resultado.style.backgroundColor = "#f8d7da";
+            resultado.style.color = "red";
+            resultado.innerText = "CPF Inválido!";
+            return;
+        }
+
+        // Calcula o 1º dígito verificador
+        var soma = 0;
+        for (var i = 0; i < 9; i++) {
+            soma += Number(cpf[i]) * (10 - i);
+        }
+        var primeiroDigito = (soma * 10) % 11;
+        if (primeiroDigito >= 10) primeiroDigito = 0;
+
+        // Calcula o 2º dígito verificador
+        soma = 0;
+        for (var i = 0; i < 10; i++) {
+            soma += Number(cpf[i]) * (11 - i);
+        }
+        var segundoDigito = (soma * 10) % 11;
+        if (segundoDigito >= 10) segundoDigito = 0;
+
+        if (primeiroDigito === Number(cpf[9]) && segundoDigito === Number(cpf[10])) {
+            resultado.style.backgroundColor = "#d4edda";
+            resultado.style.color = "green";
+            resultado.innerText = "CPF Válido!";
+        } else {
+            resultado.style.backgroundColor = "#f8d7da";
+            resultado.style.color = "red";
+            resultado.innerText = "CPF Inválido!";
+        }
+    }
+</script>
+
+</body>
+</html>

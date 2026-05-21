@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 03 - Média Escolar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 380px;
+        }
+        h1 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        .campo {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        #resultado {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Média Escolar</h1>
+
+    <div class="campo">
+        <label>Nome do aluno:</label>
+        <input type="text" id="nome" placeholder="Digite o nome">
+    </div>
+    <div class="campo">
+        <label>Nota 1:</label>
+        <input type="number" id="nota1" step="0.1" min="0" max="10" placeholder="0 a 10">
+    </div>
+    <div class="campo">
+        <label>Nota 2:</label>
+        <input type="number" id="nota2" step="0.1" min="0" max="10" placeholder="0 a 10">
+    </div>
+    <div class="campo">
+        <label>Nota 3:</label>
+        <input type="number" id="nota3" step="0.1" min="0" max="10" placeholder="0 a 10">
+    </div>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="resultado"></div>
+</div>
+
+<script>
+    function calcular() {
+        var nome = document.getElementById("nome").value;
+        var nota1 = Number(document.getElementById("nota1").value);
+        var nota2 = Number(document.getElementById("nota2").value);
+        var nota3 = Number(document.getElementById("nota3").value);
+
+        var media = (nota1 + nota2 + nota3) / 3;
+
+        var resultado = document.getElementById("resultado");
+        resultado.style.display = "block";
+
+        var mensagem = "<strong>Aluno:</strong> " + nome + "<br>";
+        mensagem += "<strong>Média:</strong> " + media.toFixed(2) + "<br><br>";
+
+        if (media >= 7.0) {
+            resultado.style.backgroundColor = "#d0e8ff";
+            resultado.style.color = "blue";
+            mensagem += "Situação: <strong>Aprovado!</strong>";
+        } else if (media >= 4.0) {
+            var faltam = 10 - media;
+            resultado.style.backgroundColor = "#d4edda";
+            resultado.style.color = "green";
+            mensagem += "Situação: <strong>Exame!</strong><br>";
+            mensagem += "Faltam " + faltam.toFixed(2) + " pontos para chegar a 10.";
+        } else {
+            resultado.style.backgroundColor = "#f8d7da";
+            resultado.style.color = "red";
+            mensagem += "Situação: <strong>Reprovado!</strong>";
+        }
+
+        resultado.innerHTML = mensagem;
+    }
+</script>
+
+</body>
+</html>
